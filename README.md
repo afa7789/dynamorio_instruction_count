@@ -12,24 +12,23 @@ These instructions tools have a hashmap folder, it is a c library made with [And
 ### Install Dynamorio.
 
 ```bash
-git clone https://github.com/DynamoRIO/dynamorio.git DRIO
-cd DRIO
-git checkout cronbuild-8.0.18789
+git clone https://github.com/DynamoRIO/dynamorio.git
+cd dynamorio
 ```
 
 ### This tool package
 
 ```bash
 # go into the correct folder
-cd DRIO/api/samples
+cd api/samples
 # clone to the here
-git clone https://github.com/afa7789/dynamorio_instruction_count.git tool_folder
+git clone https://github.com/afa7789/dynamorio_instruction_count.git dynamo_tool
 # extract it
-mv tool_folder/* .
+mv dynamo_tool/* .
 rm -rf tool_folder
 # Add line to CMakeLists
 SAMPLE='add_sample_client(bbbuf       "bbbuf.c"         "drmgr;drreg;drx")'
-NEW_LINE='add_sample_client(instruction_count "instruction_count.c;utils.c;hashmap/hash.c" "drmgr;drreg;drx")'
+NEW_LINE='add_sample_client(instruction_count "instruction_count.c;utils.c;hashmap/hash.c" "drmgr;drreg;drx")\nadd_sample_client(bbl_count "bbl_count.c;utils.c;hashmap/hash.c" "drmgr;drreg;drx")'
 sed -i 's@'$SAMPLE'@'$SAMPLE'\n'$NEW_LINE'@' CMakeLists.txt
 ```
 
@@ -40,10 +39,11 @@ sed -i 's@'$SAMPLE'@'$SAMPLE'\n'$NEW_LINE'@' CMakeLists.txt
 #### Make Dynamorio
 
 ```bash
-cd dynamorio
+#cd dynamorio
+cd ../..
 DYNAMORIO_HOME=$(pwd);
 mkdir build && cd build
-cmake  -DBUILD_DOCS=no -DDynamoRIO_DIR=$DYNAMORIO_HOME/cmake ..
+cmake  -DBUILD_DOCS=no -DDynamoRIO_DIR=$DYNAMORIO_HOME/cmake $DYNAMORIO_HOME/api/samples
 # make -j
 ```
 
