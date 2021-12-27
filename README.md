@@ -31,7 +31,6 @@ SAMPLE='add_sample_client(bbbuf       "bbbuf.c"         "drmgr;drreg;drx")'
 NEW_LINE='add_sample_client(instruction_count "instruction_count.c;utils.c;hashmap/hash.c" "drmgr;drreg;drx")\nadd_sample_client(bbl_count "bbl_count.c;utils.c;hashmap/hash.c" "drmgr;drreg;drx")'
 sed -i 's@'$SAMPLE'@'$SAMPLE'\n'$NEW_LINE'@' CMakeLists.txt
 ```
-
 ## Running the tool
 
 ### Make first
@@ -39,12 +38,11 @@ sed -i 's@'$SAMPLE'@'$SAMPLE'\n'$NEW_LINE'@' CMakeLists.txt
 #### Make Dynamorio
 
 ```bash
-#cd dynamorio
-cd ../..
+cd dynamorio
 DYNAMORIO_HOME=$(pwd);
 mkdir build && cd build
-cmake  -DBUILD_DOCS=no -DDynamoRIO_DIR=$DYNAMORIO_HOME/cmake $DYNAMORIO_HOME/api/samples
-# make -j
+cmake  -DBUILD_DOCS=no ..
+make -j
 ```
 
 #### make tool
@@ -52,6 +50,7 @@ cmake  -DBUILD_DOCS=no -DDynamoRIO_DIR=$DYNAMORIO_HOME/cmake $DYNAMORIO_HOME/api
 ```bash
 cd build
 make instruction_count
+make bbl_count
 ```
 ### Running it
 
@@ -60,4 +59,14 @@ make instruction_count
 ```bash
 $DYNAMORIO_HOME/bin64/drrun -c bin/libinstruction_count.so -- ls 
 $DYNAMORIO_HOME/bin64/drrun -c bin/libinstruction_count.so arquivo_test.txt -- ls 
+# Example with full path
+$DYNAMORIO_HOME/build/bin64/drrun -c /home/afa/Documents/code/TCC/dynamorio/dynamorio/build/api/samples/../bin/libinstruction_count.so -- ls 
+```
+#### bbl_count.c
+
+```bash
+$DYNAMORIO_HOME/bin64/drrun -c bin/libbbl_count.so -- ls 
+$DYNAMORIO_HOME/bin64/drrun -c bin/libbbl_count.so arquivo_test.txt -- ls 
+# Example with full path
+$DYNAMORIO_HOME/build/bin64/drrun -c /home/afa/Documents/code/TCC/dynamorio/dynamorio/build/api/samples/../bin/libbbl_count.so -- ls 
 ```
