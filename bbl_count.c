@@ -25,7 +25,7 @@ instrace(void *drcontext, app_pc * received_app_pc){
     UniqueInstr* instr;
     int ins_size;
 
-    ins_size = decode_sizeof( drcontext, received_app_pc , NULL, NULL );
+    ins_size = decode_sizeof( drcontext, *received_app_pc , NULL, NULL );
     instr = get_instr( (ptr_uint_t) received_app_pc , ins_size);
     instr_inc(instr, 1);
 
@@ -36,16 +36,18 @@ event_app_instruction(void *drcontext, void *tag, instrlist_t *bb, instr_t *inst
                       bool for_trace, bool translating, void *user_data)
 {
 
-    app_pc *instruction_app_pc;  
+    app_pc instruction_app_pc;  
 
     drmgr_disable_auto_predication(drcontext, bb);
     if (!drmgr_is_first_instr(drcontext, inst))
         return DR_EMIT_DEFAULT;
 
-    for (instr = instrlist_first(bb), num_instrs = 0; instr != NULL;
+    instr_t *instr;
+
+    for (instr = instrlist_first(bb); instr != NULL;
         instr = instr_get_next(instr)) {
-        instruction_app_pc = appinstr_get_app_pc(instr)
-        instrace(drcontext,instruction_app_pc)
+        instruction_app_pc = instr_get_app_pc(instr);
+        instrace(drcontext,&instruction_app_pc);
     }
 
     return DR_EMIT_DEFAULT;
@@ -53,7 +55,7 @@ event_app_instruction(void *drcontext, void *tag, instrlist_t *bb, instr_t *inst
 
 
 /* ================================================== */
-/* EXIT Funtions
+/* EXIT Funtions                                      */
 /* ================================================== */
 
 static void
