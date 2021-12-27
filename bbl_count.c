@@ -20,15 +20,13 @@
 FILE * global_fp;
 
 static void
-instrace(void *drcontext, app_pc received_app_pc){
+instrace( app_pc received_app_pc,int size){
 
     UniqueInstr* instr;
-    int ins_size;
 
-    ins_size = decode_sizeof( drcontext, received_app_pc , NULL, NULL );
-    // dr_printf(" > %x arthur\n",*received_app_pc);
+    // dr_printf(" > 0x%lx arthur\n",*received_app_pc);
 
-    instr = get_instr( (ptr_uint_t) received_app_pc , ins_size);
+    instr = get_instr( (ptr_uint_t) received_app_pc , size);
     instr_inc(instr, 1);
 
 }
@@ -37,7 +35,7 @@ static dr_emit_flags_t
 event_app_instruction(void *drcontext, void *tag, instrlist_t *bb, instr_t *inst,
                       bool for_trace, bool translating, void *user_data)
 {
-
+    int ins_size;
     app_pc instruction_app_pc;  
 
     drmgr_disable_auto_predication(drcontext, bb);
@@ -49,7 +47,9 @@ event_app_instruction(void *drcontext, void *tag, instrlist_t *bb, instr_t *inst
     for (instr = instrlist_first(bb); instr != NULL;
         instr = instr_get_next(instr)) {
         instruction_app_pc = instr_get_app_pc(instr);
-        instrace(drcontext,instruction_app_pc);
+        ins_size = decode_sizeof( drcontext, instruction_app_pc , NULL, NULL );
+        dr_insert_clean_call(drcontext, bb, instr, (void *)instrace,
+                        false /* save fpstate */, 2, OPND_CREATE_INT64(instruction_app_pc), OPND_CREATE_INT32(ins_size));
     }
 
     return DR_EMIT_DEFAULT;
