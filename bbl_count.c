@@ -20,12 +20,14 @@
 FILE * global_fp;
 
 static void
-instrace(void *drcontext, app_pc * received_app_pc){
+instrace(void *drcontext, app_pc received_app_pc){
 
     UniqueInstr* instr;
     int ins_size;
 
-    ins_size = decode_sizeof( drcontext, *received_app_pc , NULL, NULL );
+    ins_size = decode_sizeof( drcontext, received_app_pc , NULL, NULL );
+    // dr_printf(" > %x arthur\n",*received_app_pc);
+
     instr = get_instr( (ptr_uint_t) received_app_pc , ins_size);
     instr_inc(instr, 1);
 
@@ -47,7 +49,7 @@ event_app_instruction(void *drcontext, void *tag, instrlist_t *bb, instr_t *inst
     for (instr = instrlist_first(bb); instr != NULL;
         instr = instr_get_next(instr)) {
         instruction_app_pc = instr_get_app_pc(instr);
-        instrace(drcontext,&instruction_app_pc);
+        instrace(drcontext,instruction_app_pc);
     }
 
     return DR_EMIT_DEFAULT;
@@ -91,7 +93,6 @@ dr_client_main(client_id_t id, int argc, const char *argv[])
     fp = NULL;
 
     if( argc == ARG_NUMBER_FILE ){
-        // printf("\n - %s - \n",argv[INDEX_WHERE_IS_FILE_NAME]);
         fp = fopen(argv[INDEX_WHERE_IS_FILE_NAME], "w");//opening file.
     }
 
