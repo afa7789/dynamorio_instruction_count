@@ -19,10 +19,6 @@
 /* global_fp */
 FILE * global_fp;
 
-/* we only have a global count */
-static int global_count;
-
-
 static void
 instrace(void *drcontext, app_pc * received_app_pc){
 
@@ -34,7 +30,6 @@ instrace(void *drcontext, app_pc * received_app_pc){
     instr_inc(instr, 1);
 
 }
-
 
 static dr_emit_flags_t
 event_app_instruction(void *drcontext, void *tag, instrlist_t *bb, instr_t *inst,
@@ -54,6 +49,37 @@ event_app_instruction(void *drcontext, void *tag, instrlist_t *bb, instr_t *inst
     }
 
     return DR_EMIT_DEFAULT;
+}
+
+
+/* ================================================== */
+/* EXIT Funtions
+/* ================================================== */
+
+static void
+event_exit(void)
+{
+    if (!drmgr_unregister_bb_insertion_event(event_app_instruction) || drreg_exit() != DRREG_SUCCESS)
+    DR_ASSERT(false);
+    drx_exit();
+    drmgr_exit();
+
+    dump_instrs();
+    destroy_instrs_pool();
+}
+
+
+static void
+event_exit_in_file(void)
+{
+    if (!drmgr_unregister_bb_insertion_event(event_app_instruction) || drreg_exit() != DRREG_SUCCESS)
+    DR_ASSERT(false);
+    drx_exit();
+    drmgr_exit();
+
+    dump_instrs_in_file(global_fp);
+    destroy_instrs_pool();
+    fclose(global_fp);
 }
 
 DR_EXPORT void
@@ -92,52 +118,4 @@ dr_client_main(client_id_t id, int argc, const char *argv[])
     /* make it easy to tell, by looking at log file, which client executed */
     dr_log(NULL, DR_LOG_ALL, 1, "Client 'bbl_count' initializing\n");
 
-}
-
-/* ================================================== */
-/* EXIT Funtions
-/* ================================================== */
-
-static void
-event_exit(void)
-{
-    char msg[512];
-    int len;
-    len = dr_snprintf(msg, sizeof(msg) / sizeof(msg[0]),
-                      "Instrumentation results:\n"
-                      "%10d basic block executions\n"
-                      global_count);
-    DR_ASSERT(len > 0);
-    NULL_TERMINATE(msg);
-    DISPLAY_STRING(msg);
-
-    drx_exit();
-    drreg_exit();
-    drmgr_exit();
-
-    dump_instrs();
-    destroy_instrs_pool();
-}
-
-
-static void
-event_exit_in_file(void)
-{
-    char msg[512];
-    int len;
-    len = dr_snprintf(msg, sizeof(msg) / sizeof(msg[0]),
-                      "Instrumentation results:\n"
-                      "%10d basic block executions\n"
-                      global_count);
-    DR_ASSERT(len > 0);
-    NULL_TERMINATE(msg);
-    DISPLAY_STRING(msg);
-
-    drx_exit();
-    drreg_exit();
-    drmgr_exit();
-
-    dump_instrs_in_file(global_fp);
-    destroy_instrs_pool();
-    fclose(global_fp);
 }
