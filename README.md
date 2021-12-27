@@ -43,7 +43,7 @@ sed -i 's@'$SAMPLE'@'$SAMPLE'\n'$NEW_LINE'@' CMakeLists.txt
 cd dynamorio
 DYNAMORIO_HOME=$(pwd);
 mkdir build && cd build
-cmake  -DBUILD_DOCS=no .. -DDynamoRIO_DIR=$DYNAMORIO_HOME/cmake /path/to/tool_folder
+cmake  -DBUILD_DOCS=no -DDynamoRIO_DIR=$DYNAMORIO_HOME/cmake ..
 # make -j
 ```
 
