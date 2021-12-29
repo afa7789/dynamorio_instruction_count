@@ -1,5 +1,5 @@
 --- CMakeList.txt	2021-12-29 19:28:33.017589284 -0300
-+++ a	2021-12-29 19:30:05.430248914 -0300
++++ CMakeList_new.txt	2021-12-29 19:33:36.167409205 -0300
 @@ -196,6 +196,7 @@
  
  # Use ;-separated lists for source files and extensions.

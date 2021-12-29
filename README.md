@@ -24,12 +24,9 @@ cd api/samples
 # clone to the here
 git clone https://github.com/afa7789/dynamorio_instruction_count.git dynamo_tool
 # extract it
-mv dynamo_tool/* .
-rm -rf tool_folder
+cp ./{dyn.patch,bbl_count.cpp} .
 # Add line to CMakeLists
-SAMPLE='add_sample_client(bbbuf       "bbbuf.c"         "drmgr;drreg;drx")'
-NEW_LINE='add_sample_client(instruction_count "instruction_count.c;utils.c;hashmap/hash.c" "drmgr;drreg;drx")\nadd_sample_client(bbl_count "bbl_count.c;utils.c;hashmap/hash.c" "drmgr;drreg;drx")'
-sed -i 's@'$SAMPLE'@'$SAMPLE'\n'$NEW_LINE'@' CMakeLists.txt
+patch < dyn.patch
 ```
 ## Running the tool
 
@@ -49,23 +46,15 @@ make -j
 
 ```bash
 cd build
-make instruction_count
 make bbl_count
 ```
 ### Running it
-
-#### instruction_count.c
-
-```bash
-$DYNAMORIO_HOME/bin64/drrun -c bin/libinstruction_count.so -- ls 
-$DYNAMORIO_HOME/bin64/drrun -c bin/libinstruction_count.so arquivo_test.txt -- ls 
-# Example with full path
-$DYNAMORIO_HOME/build/bin64/drrun -c /home/afa/Documents/code/TCC/dynamorio/dynamorio/build/api/samples/../bin/libinstruction_count.so -- ls 
-```
+Commands to run this code
 #### bbl_count.c
 
 ```bash
 $DYNAMORIO_HOME/bin64/drrun -c bin/libbbl_count.so -- ls 
+# how to use to get the output to a file.
 $DYNAMORIO_HOME/bin64/drrun -c bin/libbbl_count.so arquivo_test.txt -- ls 
 # Example with full path
 $DYNAMORIO_HOME/build/bin64/drrun -c /home/afa/Documents/code/TCC/dynamorio/dynamorio/build/api/samples/../bin/libbbl_count.so -- ls 
