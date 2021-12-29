@@ -56,6 +56,7 @@ Commands to run this code
 $DYNAMORIO_HOME/bin64/drrun -c bin/libbbl_count.so -- ls 
 # how to use to get the output to a file.
 $DYNAMORIO_HOME/bin64/drrun -c bin/libbbl_count.so arquivo_test.txt -- ls 
-# Example with full path
+# Example on how to run it with a full path
+# By doing like this you can from anywhere in your computer
 $DYNAMORIO_HOME/build/bin64/drrun -c /home/afa/Documents/code/TCC/dynamorio/dynamorio/build/api/samples/../bin/libbbl_count.so -- ls 
 ```
