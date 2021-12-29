@@ -1,0 +1,10 @@
+--- CMakeList.txt	2021-12-29 19:28:33.017589284 -0300
++++ a	2021-12-29 19:30:05.430248914 -0300
+@@ -196,6 +196,7 @@
+ 
+ # Use ;-separated lists for source files and extensions.
+ 
++add_sample_client(blockercounter "blockcounter.cpp;" "drmgr;drreg;drx")
+ add_sample_client(bbbuf       "bbbuf.c"         "drmgr;drreg;drx")
+ add_sample_client(bbcount     "bbcount.c"       "drmgr;drreg;drx")
+ add_sample_client(bbsize      "bbsize.c"        "drmgr;drx")

@@ -14,7 +14,7 @@ void destroy_instrs_pool(void);
 UniqueInstr* get_instr(Addr addr, u_int64_t size);
 UniqueInstr* find_instr(Addr addr);
 Addr instr_addr(UniqueInstr* instr);
-int instr_size(UniqueInstr* instr);
+u_int64_t instr_size(UniqueInstr* instr);
 u_int64_t instr_count(UniqueInstr* instr);
 void instr_inc(UniqueInstr* instr, u_int64_t count);
 int instrs_cmp(UniqueInstr* i1, UniqueInstr* i2);

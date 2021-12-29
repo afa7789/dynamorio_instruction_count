@@ -162,7 +162,7 @@ Addr instr_addr(UniqueInstr* instr) {
 	return instr->addr;
 }
 
-int instr_size(UniqueInstr* instr) {
+u_int64_t instr_size(UniqueInstr* instr) {
 	assert(instr != 0);
 	return instr->size;
 }
