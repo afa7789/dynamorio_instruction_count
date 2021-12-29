@@ -1,11 +1,11 @@
 ![!Theme Image](resources/tool_header.png)
 # Dynamo Tool
-## Instruction Count 
+## Block counter
 Simple instrumentation for instruction counting made on c++ to be used with [dynamorio](https://dynamorio.org/).
 
 ## Disclaimer
 
-These instructions tools have a hashmap folder, it is a c library made with [Andrei Rimsa](http://rimsa.com.br/page/) `mostly him` :rofl: . Andrei is my professor and thesis tutor from CEFET-MG.
+The instructions tool were made with the tutoring and help of [Andrei Rimsa](http://rimsa.com.br/page/). Andrei is my professor and thesis tutor from CEFET-MG.
 
 ## How to Install
 
