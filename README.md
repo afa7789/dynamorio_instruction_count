@@ -14,6 +14,7 @@ The instructions tool were made with the tutoring and help of [Andrei Rimsa](htt
 ```bash
 git clone https://github.com/DynamoRIO/dynamorio.git
 cd dynamorio
+DYNAMORIO_HOME=$(pwd);
 ```
 
 ### This tool package
@@ -34,9 +35,10 @@ patch < dyn.patch
 
 #### Make Dynamorio
 
+make sure you have set DYNAMORIO_HOME env var at the root of the dynamorio folder.
+
 ```bash
-cd dynamorio
-DYNAMORIO_HOME=$(pwd);
+cd $DYNAMORIO_HOME
 mkdir build && cd build
 cmake  -DBUILD_DOCS=no ..
 make -j
