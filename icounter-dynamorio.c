@@ -203,6 +203,10 @@ new_group(size_t size) {
     return group;
 }
 
+/* ===================================================================== */
+/* Counts groups into the individual instructions in the Hash.           */
+/* ===================================================================== */
+
 static void
 flush_groups() {
     InstrGroup* group;
@@ -234,6 +238,7 @@ flush_groups() {
 /* ===================================================================== */
 /* Free group memory                                                     */
 /* ===================================================================== */
+
 static void
 free_group(InstrGroup* group) {
     dr_global_free(group->instrs.list,
@@ -242,8 +247,9 @@ free_group(InstrGroup* group) {
 }
 
 /* ===================================================================== */
-/* Free group list                                                     */
+/* Free group list                                                       */
 /* ===================================================================== */
+
 #if GROUPS_MODE != 1
 static
 void free_groups_list() {
@@ -344,7 +350,6 @@ event_exit(void) {
 /* ===================================================================== */
 /* Main                                                                  */
 /* ===================================================================== */
-
 
 DR_EXPORT void
 dr_client_main(client_id_t id, int argc, const char *argv[]) {
