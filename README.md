@@ -5,7 +5,7 @@ Simple instrumentation for instruction counting made on c++ to be used with [dyn
 
 ## Disclaimer
 
-The instructions tool were made with the tutoring and help of [Andrei Rimsa](http://rimsa.com.br/page/). Andrei is my professor and thesis tutor from CEFET-MG.
+The instructions tool was made with the tutoring and help of [Andrei Rimsa](http://rimsa.com.br/page/). Andrei is my professor and thesis tutor from CEFET-MG.
 
 ## How to Install
 
