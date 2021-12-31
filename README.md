@@ -1,4 +1,4 @@
-![!Theme Image](resources/tool_header.png)
+![!Theme Image](resources/icounter_header.png)
 # Dynamo Tool
 ## Block counter
 Simple instrumentation for instruction counting made on c++ to be used with [dynamorio](https://dynamorio.org/).
